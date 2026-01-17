@@ -8,6 +8,7 @@ interface ProductCardProps {
     features: string[];
     status: 'released' | 'coming-soon';
     link?: string;
+    githubLink?: string;
     icon: string;
 }
 
@@ -18,6 +19,7 @@ export default function ProductCard({
     features,
     status,
     link,
+    githubLink,
     icon,
 }: ProductCardProps) {
     const CardContent = () => (
@@ -47,21 +49,44 @@ export default function ProductCard({
                 </ul>
             </div>
 
-            {status === 'released' && link && (
+            {status === 'released' && (
                 <div className={styles.actions}>
-                    <span className={styles.button}>
-                        了解更多 →
-                    </span>
+                    {link && (
+                        <Link href={link} className={styles.button}>
+                            了解更多 →
+                        </Link>
+                    )}
+                    {githubLink && (
+                        <a
+                            href={githubLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.githubButton}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            🐙 GitHub
+                        </a>
+                    )}
                 </div>
             )}
         </>
     );
 
+    // 如果有內部連結，使用 Link
     if (status === 'released' && link) {
         return (
-            <Link href={link} className={styles.card}>
+            <div className={styles.card}>
                 <CardContent />
-            </Link>
+            </div>
+        );
+    }
+
+    // 如果只有 GitHub 連結，使用普通 div
+    if (status === 'released' && githubLink) {
+        return (
+            <div className={styles.card}>
+                <CardContent />
+            </div>
         );
     }
 
