@@ -23,6 +23,21 @@ export default function Home() {
             icon: '🎬',
         },
         {
+            title: 'ChroLens AutoFlow',
+            subtitle: '影片自動分類工具',
+            description: '智能影片自動分類與管理工具，支援 AI 女優識別、滑鼠懸停預覽、以及強大的九宮格多窗瀏覽器。',
+            features: [
+                'AI 影片編號與姓名識別',
+                '滑鼠懸停即時預覽',
+                '九宮格多窗瀏覽器',
+                '懶加載資源優化技術',
+                '自動記憶上次路徑',
+            ],
+            status: 'released' as const,
+            // 暫不開放公開連結
+            icon: '🌸',
+        },
+        {
             title: 'ChroLens Portal',
             subtitle: '快速啟動工具',
             description: '提升工作效率的快速啟動工具，集中管理常用程式、檔案和網址。',
@@ -100,7 +115,7 @@ export default function Home() {
                 </p>
                 <div className={styles.stats}>
                     <div className={styles.stat}>
-                        <div className={styles.statNumber}>3</div>
+                        <div className={styles.statNumber}>4</div>
                         <div className={styles.statLabel}>個已發布專案</div>
                     </div>
                     <div className={styles.stat}>
