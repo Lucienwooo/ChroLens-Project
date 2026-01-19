@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import styles from './ProductCard.module.css';
 
@@ -21,7 +23,7 @@ const CardContent = ({ title, subtitle, description, features, icon, status, lin
                 <p className={styles.subtitle}>{subtitle}</p>
             </div>
             <span className={`${styles.badge} ${styles[status]}`}>
-                {status === 'released' ? '✓ Released' : '🚧 Coming Soon'}
+                {status === 'released' ? '✓ 已發布' : '🚧 開發中'}
             </span>
         </div>
 
@@ -63,28 +65,10 @@ const CardContent = ({ title, subtitle, description, features, icon, status, lin
 );
 
 export default function ProductCard(props: ProductCardProps) {
-    const { status, link, githubLink } = props;
-
-    // 如果有內部連結，使用 Link
-    if (status === 'released' && link) {
-        return (
-            <div className={styles.card}>
-                <CardContent {...props} />
-            </div>
-        );
-    }
-
-    // 如果只有 GitHub 連結，使用普通 div
-    if (status === 'released' && githubLink) {
-        return (
-            <div className={styles.card}>
-                <CardContent {...props} />
-            </div>
-        );
-    }
+    const { status } = props;
 
     return (
-        <div className={`${styles.card} ${styles.disabled}`}>
+        <div className={`${styles.card} ${status === 'coming-soon' ? styles.disabled : ''}`}>
             <CardContent {...props} />
         </div>
     );
