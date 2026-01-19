@@ -1,8 +1,27 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 import ThemeToggle from './ThemeToggle';
 import styles from './Header.module.css';
 
 export default function Header() {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    // 專案列表 (依字母排序)
+    const projects = [
+        { name: 'ChroLens Clear', path: 'https://github.com/Lucienwooo/ChroLens_Clear', type: 'github' },
+        { name: 'ChroLens Echo', path: 'https://github.com/Lucienwooo/ChroLens_Echo', type: 'github' },
+        { name: 'ChroLens Magi', path: 'https://github.com/Lucienwooo/ChroLens_Magi', type: 'github' },
+        { name: 'ChroLens Mimic', path: '/mimic', type: 'internal' },
+        { name: 'ChroLens NorseFarmer', path: 'https://github.com/Lucienwooo/ChroLens-NorseFarmer', type: 'github' },
+        { name: 'ChroLens Orbit', path: 'https://github.com/Lucienwooo/ChroLens_Orbit', type: 'github' },
+        { name: 'ChroLens Portal', path: 'https://github.com/Lucienwooo/ChroLens_Portal', type: 'github' },
+        { name: 'ChroLens Sentinel', path: 'https://github.com/Lucienwooo/ChroLens_Sentinel', type: 'github' },
+        { name: 'ChroLens Sorting', path: 'https://github.com/Lucienwooo/ChroLens_Sorting', type: 'github' },
+        { name: 'ChroLens Sothoth', path: 'https://github.com/Lucienwooo/ChroLens_Sothoth', type: 'github' },
+    ].sort((a, b) => a.name.localeCompare(b.name));
+
     return (
         <header className={styles.header}>
             <div className={styles.container}>
@@ -12,29 +31,47 @@ export default function Header() {
                 </Link>
 
                 <nav className={styles.nav}>
-                    <Link href="/" className={styles.navLink}>
-                        首頁
-                    </Link>
-                    <Link href="/mimic" className={styles.navLink}>
-                        Mimic
-                    </Link>
-                    <Link href="/echo" className={`${styles.navLink} ${styles.disabled}`}>
-                        Echo <span className={styles.comingSoon}>Soon</span>
-                    </Link>
-                    <Link href="/scan" className={`${styles.navLink} ${styles.disabled}`}>
-                        Scan <span className={styles.comingSoon}>Soon</span>
-                    </Link>
-                    <a
-                        href="https://github.com/LucienWooo"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.navLink}
-                        aria-label="GitHub"
+                    <Link href="/" className={styles.navLink}>首頁</Link>
+
+                    <div
+                        className={styles.dropdownContainer}
+                        onMouseEnter={() => setIsDropdownOpen(true)}
+                        onMouseLeave={() => setIsDropdownOpen(false)}
                     >
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
-                        </svg>
-                    </a>
+                        <button className={styles.navLink}>
+                            工具 <span className={styles.arrow}>▾</span>
+                        </button>
+
+                        {isDropdownOpen && (
+                            <div className={styles.dropdown}>
+                                {projects.map((project) => (
+                                    project.type === 'internal' ? (
+                                        <Link
+                                            key={project.name}
+                                            href={project.path}
+                                            className={styles.dropdownItem}
+                                            onClick={() => setIsDropdownOpen(false)}
+                                        >
+                                            {project.name}
+                                        </Link>
+                                    ) : (
+                                        <a
+                                            key={project.name}
+                                            href={project.path}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={styles.dropdownItem}
+                                            onClick={() => setIsDropdownOpen(false)}
+                                        >
+                                            {project.name} 🐙
+                                        </a>
+                                    )
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <Link href="/#about" className={styles.navLink}>關於</Link>
                 </nav>
 
                 <ThemeToggle />
